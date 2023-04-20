@@ -1,0 +1,170 @@
+\documentclass[crop=false]{standalone}
+%\documentclass{standalone}
+\usepackage{tikz} % To generate the plot from csv
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage[section]{placeins} % getting figures below sections
+\usepackage{blindtext}
+\usepackage{siunitx}
+\usepgfplotslibrary{units} % Allows to enter the units nicely
+\usetikzlibrary{external} %https://tex.stackexchange.com/questions/1460/script-to-automate-externalizing-tikz-graphics
+\tikzexternalize[prefix=savedfigures/]
+
+\pgfplotsset{compat=newest} % Allows to place the legend below plot
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{statistics}
+
+% #################### Function definition for box plots read table ##################\
+\makeatletter
+\pgfplotsset{
+	boxplot prepared from table/.code={
+		\def\tikz@plot@handler{\pgfplotsplothandlerboxplotprepared}%
+		\pgfplotsset{
+			/pgfplots/boxplot prepared from table/.cd,
+			#1,
+		}
+	},
+	/pgfplots/boxplot prepared from table/.cd,
+	table/.code={\pgfplotstablecopy{#1}\to\boxplot@datatable},
+	row/.initial=0,
+	make style readable from table/.style={
+		#1/.code={
+			\pgfplotstablegetelem{\pgfkeysvalueof{/pgfplots/boxplot prepared from table/row}}{##1}\of\boxplot@datatable
+			\pgfplotsset{boxplot/#1/.expand once={\pgfplotsretval}}
+		}
+	},
+	make style readable from table=lower whisker,
+	make style readable from table=upper whisker,
+	make style readable from table=lower quartile,
+	make style readable from table=upper quartile,
+	make style readable from table=median,
+	make style readable from table=average,
+	make style readable from table=lower notch,
+	make style readable from table=upper notch
+}
+\makeatother
+\begin{document}
+
+\section{5 3 Mumford1 GA Mut threshold 20210721 230243}
+
+% ######################## UTRP GA Mutation threshold ######################## 
+\begin{figure} 
+\centering 
+\tikzsetnextfilename{UTRP_NSGAII_BP_mut_threshold} 
+\begin{tikzpicture} 
+\begin{axis}[ 
+title={Mutation threshold}, 
+boxplot/draw direction=y, 
+xtick={1,2,3,4,5,6}, 
+xticklabels={0.005,0.01,0.02,0.03,0.05,0.07}, 
+x tick label style={rotate=0, align=center}, 
+xlabel={Mutation threshold}, 
+y tick label style={/pgf/number format/.cd,fixed,precision=3, zerofill}, 
+ylabel={HV obtained [\%]}, 
+] 
+
+% ############## Mut_threshold=0.005 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.74476, 
+upper whisker=0.75726, 
+lower quartile=0.74941, 
+upper quartile=0.75403, 
+median=0.75163, 
+average=0.75138}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(1,0.76521)}; 
+
+% ############## Mut_threshold=0.01 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.74484, 
+upper whisker=0.7558, 
+lower quartile=0.74881, 
+upper quartile=0.75335, 
+median=0.75025, 
+average=0.75082}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(2,0.76036)}; 
+
+% ############## Mut_threshold=0.02 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.7468, 
+upper whisker=0.76055, 
+lower quartile=0.74959, 
+upper quartile=0.7542, 
+median=0.7518, 
+average=0.75202}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(3,0.76446)}; 
+
+% ############## Mut_threshold=0.03 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.74777, 
+upper whisker=0.76007, 
+lower quartile=0.74905, 
+upper quartile=0.75398, 
+median=0.75196, 
+average=0.75214}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(4,0.76602)}; 
+
+% ############## Mut_threshold=0.05 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.747, 
+upper whisker=0.75756, 
+lower quartile=0.74852, 
+upper quartile=0.75182, 
+median=0.7494, 
+average=0.75019}, 
+color = blue, solid, area legend] 
+coordinates {
+(5,0.76064)
+(5,0.76009)}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(5,0.76603)}; 
+
+% ############## Mut_threshold=0.07 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.74659, 
+upper whisker=0.75743, 
+lower quartile=0.74854, 
+upper quartile=0.75192, 
+median=0.7508, 
+average=0.75059}, 
+color = blue, solid, area legend] 
+coordinates {
+(6,0.75801)}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(6,0.76627)}; 
+
+\end{axis}
+\end{tikzpicture}
+\end{figure} 
+\begin{table}
+\centering
+\caption{Legend for the boxplot.}
+\begin{tabular}{ll}
+\toprule
+ Index &  Name \\
+\midrule
+     0 & 0.070 \\
+     1 & 0.050 \\
+     2 & 0.030 \\
+     3 & 0.020 \\
+     4 & 0.010 \\
+     5 & 0.005 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

@@ -1,0 +1,140 @@
+\documentclass[crop=false]{standalone}
+%\documentclass{standalone}
+\usepackage{tikz} % To generate the plot from csv
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage[section]{placeins} % getting figures below sections
+\usepackage{blindtext}
+\usepackage{siunitx}
+\usepgfplotslibrary{units} % Allows to enter the units nicely
+\usetikzlibrary{external} %https://tex.stackexchange.com/questions/1460/script-to-automate-externalizing-tikz-graphics
+\tikzexternalize[prefix=savedfigures/]
+
+\pgfplotsset{compat=newest} % Allows to place the legend below plot
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{statistics}
+
+% #################### Function definition for box plots read table ##################\
+\makeatletter
+\pgfplotsset{
+	boxplot prepared from table/.code={
+		\def\tikz@plot@handler{\pgfplotsplothandlerboxplotprepared}%
+		\pgfplotsset{
+			/pgfplots/boxplot prepared from table/.cd,
+			#1,
+		}
+	},
+	/pgfplots/boxplot prepared from table/.cd,
+	table/.code={\pgfplotstablecopy{#1}\to\boxplot@datatable},
+	row/.initial=0,
+	make style readable from table/.style={
+		#1/.code={
+			\pgfplotstablegetelem{\pgfkeysvalueof{/pgfplots/boxplot prepared from table/row}}{##1}\of\boxplot@datatable
+			\pgfplotsset{boxplot/#1/.expand once={\pgfplotsretval}}
+		}
+	},
+	make style readable from table=lower whisker,
+	make style readable from table=upper whisker,
+	make style readable from table=lower quartile,
+	make style readable from table=upper quartile,
+	make style readable from table=median,
+	make style readable from table=average,
+	make style readable from table=lower notch,
+	make style readable from table=upper notch
+}
+\makeatother
+\begin{document}
+
+\section{22 1 Mandl6 SA Mut update 20210813 072811}
+
+% ######################## UTRP SA Updating the mutation ratio ######################## 
+\begin{figure} 
+\centering 
+\tikzsetnextfilename{UTRP_DBMOSA_BP_update_mut_ratio} 
+\begin{tikzpicture} 
+\begin{axis}[ 
+title={Updating the mutation ratio}, 
+boxplot/draw direction=y, 
+xtick={1,2,3,4}, 
+xticklabels={0,1,2,3}, 
+x tick label style={rotate=0, align=center}, 
+xlabel={Updating the mutation ratio}, 
+y tick label style={/pgf/number format/.cd,fixed,precision=3, zerofill}, 
+ylabel={HV obtained [\%]}, 
+] 
+
+% ############## Mut_update=0 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.67647, 
+upper whisker=0.81654, 
+lower quartile=0.72557, 
+upper quartile=0.79099, 
+median=0.76679, 
+average=0.75702}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(1,0.82253)}; 
+
+% ############## Mut_update=1 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.74071, 
+upper whisker=0.81067, 
+lower quartile=0.75553, 
+upper quartile=0.77583, 
+median=0.76519, 
+average=0.76865}, 
+color = blue, solid, area legend] 
+coordinates {
+(2,0.63586)}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(2,0.81479)}; 
+
+% ############## Mut_update=2 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.77124, 
+upper whisker=0.78578, 
+lower quartile=0.77812, 
+upper quartile=0.78242, 
+median=0.7798, 
+average=0.77997}, 
+color = blue, solid, area legend] 
+coordinates {
+(3,0.81545)
+(3,0.74942)}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(3,0.8314)}; 
+
+% ############## Mut_update=3 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.74406, 
+upper whisker=0.82145, 
+lower quartile=0.76455, 
+upper quartile=0.79373, 
+median=0.76824, 
+average=0.77712}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(4,0.83533)}; 
+
+\end{axis}
+\end{tikzpicture}
+\end{figure} 
+\begin{table}
+\centering
+\caption{Legend for the boxplot.}
+\begin{tabular}{ll}
+\toprule
+ Index &  Name \\
+\midrule
+     0 & False \\
+     1 &  True \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

@@ -1,0 +1,15 @@
+\begin{tabular}{rl}
+0 & $\left\lbrace \textnormal{a, b, c, d, e, j} \right\rbrace$ \\
+1 & $\left\lbrace \textnormal{c, d, e, j, p, q} \right\rbrace$ \\
+2 & $\left\lbrace \textnormal{a, b, c, d, e, g, h, j} \right\rbrace$ \\
+3 & $\left\lbrace \textnormal{c, d, e, g, h, j, p, q} \right\rbrace$ \\
+4 & $\left\lbrace \textnormal{a, b, c, d, e, g, h, j, p ,q} \right\rbrace$ \\
+\end{tabular}
+
+\begin{tabular}{rl}
+0 & $\left\lbrace a, b, c, d, e, j \right\rbrace$ \\
+1 & $\left\lbrace c, d, e, j, p, q \right\rbrace$ \\
+2 & $\left\lbrace a, b, c, d, e, g, h, j \right\rbrace$ \\
+3 & $\left\lbrace c, d, e, g, h, j, p, q \right\rbrace$ \\
+4 & $\left\lbrace a, b, c, d, e, g, h, j, p ,q \right\rbrace$ \\
+\end{tabular}

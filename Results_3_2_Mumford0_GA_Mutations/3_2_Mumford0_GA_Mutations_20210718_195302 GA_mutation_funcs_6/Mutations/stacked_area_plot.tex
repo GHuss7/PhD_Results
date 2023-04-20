@@ -1,0 +1,38 @@
+\documentclass[crop=false]{standalone}
+%https://tex.stackexchange.com/questions/288373/how-to-draw-stacked-area-chart
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+\pgfplotsset{compat=1.12}
+\usetikzlibrary{fillbetween}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=savedfigures/]
+
+\begin{document}
+\pgfkeys{/pgf/number format/.cd,1000 sep={\,}}
+\tikzsetnextfilename{Stacked_area_mut}
+\begin{tikzpicture}[]
+    \begin{axis}[
+    legend style={at={(1.1,1)},anchor=north west}, %(<x>,<y>)
+    %date coordinates in=x,
+    table/col sep=comma,
+    %xticklabel style={rotate=90, anchor=near xticklabel},
+    ymin=0,
+    ymax=1,
+    %restrict y to domain=0:1,
+    %max space between ticks=20,
+    stack plots=y,%
+    area style,each nth point=1, filter discard warning=false, unbounded coords=discard,
+    xmin=0,
+    xmax=201,
+    xlabel = Generations,
+    ylabel = Selection probability
+    ]
+
+\addplot [draw=blue, fill=blue!30!white] table [mark=none, x=Generations,y=Relocate_inside_vertex
+] {Smoothed_Mutation_Ratios_for_Tikz.csv}
+    \closedcycle;
+    \addlegendentry{Relocate vertex};
+
+    \end{axis}
+    \end{tikzpicture}
+\end{document}

@@ -1,0 +1,139 @@
+\documentclass[crop=false]{standalone}
+%\documentclass{standalone}
+\usepackage{tikz} % To generate the plot from csv
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage[section]{placeins} % getting figures below sections
+\usepackage{blindtext}
+\usepackage{siunitx}
+\usepgfplotslibrary{units} % Allows to enter the units nicely
+\usetikzlibrary{external} %https://tex.stackexchange.com/questions/1460/script-to-automate-externalizing-tikz-graphics
+\tikzexternalize[prefix=savedfigures/]
+
+\pgfplotsset{compat=newest} % Allows to place the legend below plot
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{statistics}
+
+% #################### Function definition for box plots read table ##################\
+\makeatletter
+\pgfplotsset{
+	boxplot prepared from table/.code={
+		\def\tikz@plot@handler{\pgfplotsplothandlerboxplotprepared}%
+		\pgfplotsset{
+			/pgfplots/boxplot prepared from table/.cd,
+			#1,
+		}
+	},
+	/pgfplots/boxplot prepared from table/.cd,
+	table/.code={\pgfplotstablecopy{#1}\to\boxplot@datatable},
+	row/.initial=0,
+	make style readable from table/.style={
+		#1/.code={
+			\pgfplotstablegetelem{\pgfkeysvalueof{/pgfplots/boxplot prepared from table/row}}{##1}\of\boxplot@datatable
+			\pgfplotsset{boxplot/#1/.expand once={\pgfplotsretval}}
+		}
+	},
+	make style readable from table=lower whisker,
+	make style readable from table=upper whisker,
+	make style readable from table=lower quartile,
+	make style readable from table=upper quartile,
+	make style readable from table=median,
+	make style readable from table=average,
+	make style readable from table=lower notch,
+	make style readable from table=upper notch
+}
+\makeatother
+\begin{document}
+
+\section{22 2 Mumford0 SA Mut update 20210812 163415}
+
+% ######################## UTRP SA Updating the mutation ratio ######################## 
+\begin{figure} 
+\centering 
+\tikzsetnextfilename{UTRP_DBMOSA_BP_update_mut_ratio} 
+\begin{tikzpicture} 
+\begin{axis}[ 
+title={Updating the mutation ratio}, 
+boxplot/draw direction=y, 
+xtick={1,2,3,4}, 
+xticklabels={0,1,2,3}, 
+x tick label style={rotate=0, align=center}, 
+xlabel={Updating the mutation ratio}, 
+y tick label style={/pgf/number format/.cd,fixed,precision=3, zerofill}, 
+ylabel={HV obtained [\%]}, 
+] 
+
+% ############## Mut_update=0 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.62778, 
+upper whisker=0.78915, 
+lower quartile=0.70824, 
+upper quartile=0.77239, 
+median=0.72857, 
+average=0.73092}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(1,0.79374)}; 
+
+% ############## Mut_update=1 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.63648, 
+upper whisker=0.78518, 
+lower quartile=0.65096, 
+upper quartile=0.75486, 
+median=0.685, 
+average=0.70142}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(2,0.79903)}; 
+
+% ############## Mut_update=2 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.72049, 
+upper whisker=0.7795, 
+lower quartile=0.74745, 
+upper quartile=0.76773, 
+median=0.75622, 
+average=0.75492}, 
+color = blue, solid, area legend] 
+coordinates {
+(3,0.62301)}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(3,0.78164)}; 
+
+% ############## Mut_update=3 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.68857, 
+upper whisker=0.73639, 
+lower quartile=0.6918, 
+upper quartile=0.70962, 
+median=0.70144, 
+average=0.7037}, 
+color = blue, solid, area legend] 
+coordinates {
+(4,0.76658)}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(4,0.77001)}; 
+
+\end{axis}
+\end{tikzpicture}
+\end{figure} 
+\begin{table}
+\centering
+\caption{Legend for the boxplot.}
+\begin{tabular}{ll}
+\toprule
+ Index &  Name \\
+\midrule
+     0 & False \\
+     1 &  True \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

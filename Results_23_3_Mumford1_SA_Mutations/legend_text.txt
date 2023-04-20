@@ -1,0 +1,9 @@
+\begin{tabular}{rl}
+0 & $\left\lbrace \textnormal{a, b} \right\rbrace$ \\
+1 & $\left\lbrace \textnormal{p, q} \right\rbrace$ \\
+2 & $\left\lbrace \textnormal{c, d} \right\rbrace$ \\
+3 & $\left\lbrace \textnormal{a, b, c, d} \right\rbrace$ \\
+4 & $\left\lbrace \textnormal{a, b, j} \right\rbrace$ \\
+5 & $\left\lbrace \textnormal{a, b, c, d, e, j} \right\rbrace$ \\
+6 & $\left\lbrace \textnormal{a, b, c, d, e, g, h, j, k} \right\rbrace$ \\
+\end{tabular}

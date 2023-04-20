@@ -1,0 +1,156 @@
+\documentclass[crop=false]{standalone}
+%\documentclass{standalone}
+\usepackage{tikz} % To generate the plot from csv
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage[section]{placeins} % getting figures below sections
+\usepackage{blindtext}
+\usepackage{siunitx}
+\usepgfplotslibrary{units} % Allows to enter the units nicely
+\usetikzlibrary{external} %https://tex.stackexchange.com/questions/1460/script-to-automate-externalizing-tikz-graphics
+\tikzexternalize[prefix=savedfigures/]
+
+\pgfplotsset{compat=newest} % Allows to place the legend below plot
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{statistics}
+
+% #################### Function definition for box plots read table ##################\
+\makeatletter
+\pgfplotsset{
+	boxplot prepared from table/.code={
+		\def\tikz@plot@handler{\pgfplotsplothandlerboxplotprepared}%
+		\pgfplotsset{
+			/pgfplots/boxplot prepared from table/.cd,
+			#1,
+		}
+	},
+	/pgfplots/boxplot prepared from table/.cd,
+	table/.code={\pgfplotstablecopy{#1}\to\boxplot@datatable},
+	row/.initial=0,
+	make style readable from table/.style={
+		#1/.code={
+			\pgfplotstablegetelem{\pgfkeysvalueof{/pgfplots/boxplot prepared from table/row}}{##1}\of\boxplot@datatable
+			\pgfplotsset{boxplot/#1/.expand once={\pgfplotsretval}}
+		}
+	},
+	make style readable from table=lower whisker,
+	make style readable from table=upper whisker,
+	make style readable from table=lower quartile,
+	make style readable from table=upper quartile,
+	make style readable from table=median,
+	make style readable from table=average,
+	make style readable from table=lower notch,
+	make style readable from table=upper notch
+}
+\makeatother
+\begin{document}
+
+\section{8 2 Mumford0 GA Crossover prob 20210723 110508}
+
+% ######################## UTRP GA Crossover probability ######################## 
+\begin{figure} 
+\centering 
+\tikzsetnextfilename{UTRP_NSGAII_BP_crossover_probability} 
+\begin{tikzpicture} 
+\begin{axis}[ 
+title={Crossover probability}, 
+boxplot/draw direction=y, 
+xtick={1,2,3,4,5}, 
+xticklabels={0.4,0.5,0.6,0.7,0.8}, 
+x tick label style={rotate=0, align=center}, 
+xlabel={Crossover probability}, 
+y tick label style={/pgf/number format/.cd,fixed,precision=3, zerofill}, 
+ylabel={HV obtained [\%]}, 
+] 
+
+% ############## Crossover_prob=0.4 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.82178, 
+upper whisker=0.82795, 
+lower quartile=0.82352, 
+upper quartile=0.82554, 
+median=0.82482, 
+average=0.82463}, 
+color = blue, solid, area legend] 
+coordinates {
+(1,0.83094)}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(1,0.83322)}; 
+
+% ############## Crossover_prob=0.5 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.82283, 
+upper whisker=0.8252, 
+lower quartile=0.8234, 
+upper quartile=0.82402, 
+median=0.82365, 
+average=0.82377}, 
+color = blue, solid, area legend] 
+coordinates {
+(2,0.82127)
+(2,0.82581)}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(2,0.83106)}; 
+
+% ############## Crossover_prob=0.6 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.81552, 
+upper whisker=0.82472, 
+lower quartile=0.81906, 
+upper quartile=0.82177, 
+median=0.82008, 
+average=0.8201}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(3,0.82955)}; 
+
+% ############## Crossover_prob=0.7 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.81086, 
+upper whisker=0.81981, 
+lower quartile=0.8147, 
+upper quartile=0.81852, 
+median=0.8163, 
+average=0.81622}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(4,0.82607)}; 
+
+% ############## Crossover_prob=0.8 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.80826, 
+upper whisker=0.81774, 
+lower quartile=0.80973, 
+upper quartile=0.8132, 
+median=0.81144, 
+average=0.81192}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(5,0.82147)}; 
+
+\end{axis}
+\end{tikzpicture}
+\end{figure} 
+\begin{table}
+\centering
+\caption{Legend for the boxplot.}
+\begin{tabular}{ll}
+\toprule
+ Index &  Name \\
+\midrule
+     0 &   200 \\
+     1 &   300 \\
+     2 &   400 \\
+     3 &   500 \\
+     4 &   600 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

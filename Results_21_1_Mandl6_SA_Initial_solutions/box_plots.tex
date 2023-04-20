@@ -1,0 +1,190 @@
+\documentclass[crop=false]{standalone}
+%\documentclass{standalone}
+\usepackage{tikz} % To generate the plot from csv
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage[section]{placeins} % getting figures below sections
+\usepackage{blindtext}
+\usepackage{siunitx}
+\usepgfplotslibrary{units} % Allows to enter the units nicely
+\usetikzlibrary{external} %https://tex.stackexchange.com/questions/1460/script-to-automate-externalizing-tikz-graphics
+\tikzexternalize[prefix=savedfigures/]
+
+\pgfplotsset{compat=newest} % Allows to place the legend below plot
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{statistics}
+
+% #################### Function definition for box plots read table ##################\
+\makeatletter
+\pgfplotsset{
+	boxplot prepared from table/.code={
+		\def\tikz@plot@handler{\pgfplotsplothandlerboxplotprepared}%
+		\pgfplotsset{
+			/pgfplots/boxplot prepared from table/.cd,
+			#1,
+		}
+	},
+	/pgfplots/boxplot prepared from table/.cd,
+	table/.code={\pgfplotstablecopy{#1}\to\boxplot@datatable},
+	row/.initial=0,
+	make style readable from table/.style={
+		#1/.code={
+			\pgfplotstablegetelem{\pgfkeysvalueof{/pgfplots/boxplot prepared from table/row}}{##1}\of\boxplot@datatable
+			\pgfplotsset{boxplot/#1/.expand once={\pgfplotsretval}}
+		}
+	},
+	make style readable from table=lower whisker,
+	make style readable from table=upper whisker,
+	make style readable from table=lower quartile,
+	make style readable from table=upper quartile,
+	make style readable from table=median,
+	make style readable from table=average,
+	make style readable from table=lower notch,
+	make style readable from table=upper notch
+}
+\makeatother
+\begin{document}
+\pgfkeys{/pgf/number format/.cd,1000 sep={\,}}
+
+\section{21 1 Mandl6 SA Initial solutions 20210813 072811}
+
+% ######################## UTRP SA Import saved solutions ######################## 
+\begin{figure} 
+\centering 
+\tikzsetnextfilename{UTRP_DBMOSA_BP_initial_solutions} 
+\begin{tikzpicture} 
+\begin{axis}[ 
+title={Import saved solutions}, 
+boxplot/draw direction=y, 
+xtick={1,2,3}, 
+xticklabels={0,1,2}, 
+x tick label style={rotate=0, align=center}, 
+xlabel={Import saved solutions}, 
+% y tick label style={/pgf/number format/.cd,fixed,precision=3, zerofill}, 
+scaled y ticks={base 10:2}, 
+ylabel={HV obtained [\%]}, 
+] 
+
+% ############## Choice_import_saved_set=0 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.74406, 
+upper whisker=0.82145, 
+lower quartile=0.76455, 
+upper quartile=0.79373, 
+median=0.76824, 
+average=0.77712}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(1,0.83533)}; 
+
+% ############## Choice_import_saved_set=1 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.75684, 
+upper whisker=0.80828, 
+lower quartile=0.77096, 
+upper quartile=0.79701, 
+median=0.77858, 
+average=0.78419}, 
+color = blue, solid, area legend] 
+coordinates {
+(2,0.6923)}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(2,0.83324)}; 
+
+% ############## Choice_import_saved_set=2 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.77157, 
+upper whisker=0.83067, 
+lower quartile=0.79384, 
+upper quartile=0.80797, 
+median=0.79961, 
+average=0.79942}, 
+color = blue, solid, area legend] 
+coordinates {
+(3,0.75144)}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(3,0.84956)}; 
+
+\end{axis}
+\end{tikzpicture}
+\end{figure} 
+
+% ######################## UTRP SA Use supplemented initial solution set ######################## 
+\begin{figure} 
+\centering 
+\tikzsetnextfilename{UTRP_DBMOSA_BP_initial_solutions} 
+\begin{tikzpicture} 
+\begin{axis}[ 
+title={Use supplemented initial solution set}, 
+boxplot/draw direction=y, 
+xtick={1,2,3}, 
+xticklabels={0,1,2}, 
+x tick label style={rotate=0, align=center}, 
+xlabel={Use supplemented initial solution set}, 
+% y tick label style={/pgf/number format/.cd,fixed,precision=3, zerofill}, 
+scaled y ticks={base 10:2}, 
+ylabel={HV obtained [\%]}, 
+] 
+
+% ############## Initial_solutions=0 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.74406, 
+upper whisker=0.82145, 
+lower quartile=0.76455, 
+upper quartile=0.79373, 
+median=0.76824, 
+average=0.77712}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(1,0.83533)}; 
+
+% ############## Initial_solutions=1 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.75684, 
+upper whisker=0.80828, 
+lower quartile=0.77096, 
+upper quartile=0.79701, 
+median=0.77858, 
+average=0.78419}, 
+color = blue, solid, area legend] 
+coordinates {
+(2,0.6923)}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(2,0.83324)}; 
+
+% ############## Initial_solutions=2 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.77157, 
+upper whisker=0.83067, 
+lower quartile=0.79384, 
+upper quartile=0.80797, 
+median=0.79961, 
+average=0.79942}, 
+color = blue, solid, area legend] 
+coordinates {
+(3,0.75144)}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(3,0.84956)}; 
+
+\end{axis}
+\end{tikzpicture}
+\end{figure} 
+\begin{table}
+\centering
+\caption{Legend for the boxplot.}
+\begin{tabular}{ll}
+\toprule
+ Index &  Name \\
+\midrule
+     0 & False \\
+     1 &  True \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

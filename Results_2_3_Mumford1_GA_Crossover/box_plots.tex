@@ -1,0 +1,169 @@
+\documentclass[crop=false]{standalone}
+%\documentclass{standalone}
+\usepackage{tikz} % To generate the plot from csv
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage[section]{placeins} % getting figures below sections
+\usepackage{blindtext}
+\usepackage{siunitx}
+\usepgfplotslibrary{units} % Allows to enter the units nicely
+\usetikzlibrary{external} %https://tex.stackexchange.com/questions/1460/script-to-automate-externalizing-tikz-graphics
+\tikzexternalize[prefix=savedfigures/]
+
+\pgfplotsset{compat=newest} % Allows to place the legend below plot
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{statistics}
+
+% #################### Function definition for box plots read table ##################\
+\makeatletter
+\pgfplotsset{
+	boxplot prepared from table/.code={
+		\def\tikz@plot@handler{\pgfplotsplothandlerboxplotprepared}%
+		\pgfplotsset{
+			/pgfplots/boxplot prepared from table/.cd,
+			#1,
+		}
+	},
+	/pgfplots/boxplot prepared from table/.cd,
+	table/.code={\pgfplotstablecopy{#1}\to\boxplot@datatable},
+	row/.initial=0,
+	make style readable from table/.style={
+		#1/.code={
+			\pgfplotstablegetelem{\pgfkeysvalueof{/pgfplots/boxplot prepared from table/row}}{##1}\of\boxplot@datatable
+			\pgfplotsset{boxplot/#1/.expand once={\pgfplotsretval}}
+		}
+	},
+	make style readable from table=lower whisker,
+	make style readable from table=upper whisker,
+	make style readable from table=lower quartile,
+	make style readable from table=upper quartile,
+	make style readable from table=median,
+	make style readable from table=average,
+	make style readable from table=lower notch,
+	make style readable from table=upper notch
+}
+\makeatother
+\begin{document}
+
+\section{2 3 Mumford1 GA Crossover 20210716 150859}
+
+% ######################## UTRP GA Crossover operators applied ######################## 
+\begin{figure} 
+\centering 
+\tikzsetnextfilename{UTRP_NSGAII_BP_crossover_funcs} 
+\begin{tikzpicture} 
+\begin{axis}[ 
+title={Crossover operators applied}, 
+boxplot/draw direction=y, 
+xtick={1,2,3,4,5,6}, 
+xticklabels={0,1,2,3,4,5}, 
+x tick label style={rotate=0, align=center}, 
+xlabel={Crossover operators applied}, 
+scaled y ticks={base 10:2}, %y tick label style={/pgf/number format/.cd,fixed,precision=3, zerofill}, 
+ylabel={HV obtained [\%]}, 
+] 
+
+% ############## Crossover=0 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.73335, 
+upper whisker=0.75248, 
+lower quartile=0.74367, 
+upper quartile=0.75064, 
+median=0.74789, 
+average=0.74655}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(1,0.7586)}; 
+
+% ############## Crossover=1 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.73571, 
+upper whisker=0.75593, 
+lower quartile=0.74342, 
+upper quartile=0.75017, 
+median=0.74544, 
+average=0.74628}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(2,0.76263)}; 
+
+% ############## Crossover=2 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.73155, 
+upper whisker=0.75778, 
+lower quartile=0.74146, 
+upper quartile=0.74963, 
+median=0.74434, 
+average=0.74512}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(3,0.76591)}; 
+
+% ############## Crossover=3 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.73137, 
+upper whisker=0.75598, 
+lower quartile=0.74007, 
+upper quartile=0.74951, 
+median=0.7444, 
+average=0.74477}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(4,0.76621)}; 
+
+% ############## Crossover=4 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.73097, 
+upper whisker=0.7609, 
+lower quartile=0.74008, 
+upper quartile=0.74896, 
+median=0.74404, 
+average=0.7442}, 
+color = blue, solid, area legend] 
+coordinates {
+(5,0.76367)}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(5,0.76701)}; 
+
+% ############## Crossover=5 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.73835, 
+upper whisker=0.75318, 
+lower quartile=0.74242, 
+upper quartile=0.74895, 
+median=0.74593, 
+average=0.74577}, 
+color = blue, solid, area legend] 
+coordinates {
+(6,0.73087)}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(6,0.75999)}; 
+
+\end{axis}
+\end{tikzpicture}
+\end{figure} 
+\begin{table}
+\centering
+\caption{Legend for the boxplot.}
+\begin{tabular}{ll}
+\toprule
+ Index &                                     Name \\
+\midrule
+     0 &                                  Mumford \\
+     1 &                     Unseen\_probabilistic \\
+     2 &              Mumford\_replace\_subsets\_ksp \\
+     3 & Unseen\_probabilistic\_replace\_subsets\_ksp \\
+     4 &                  Mumford\_replace\_subsets \\
+     5 &     Unseen\_probabilistic\_replace\_subsets \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

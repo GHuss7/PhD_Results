@@ -1,0 +1,191 @@
+\documentclass[crop=false]{standalone}
+%\documentclass{standalone}
+\usepackage{tikz} % To generate the plot from csv
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage[section]{placeins} % getting figures below sections
+\usepackage{blindtext}
+\usepackage{siunitx}
+\usepgfplotslibrary{units} % Allows to enter the units nicely
+\usetikzlibrary{external} %https://tex.stackexchange.com/questions/1460/script-to-automate-externalizing-tikz-graphics
+\tikzexternalize[prefix=savedfigures/]
+
+\pgfplotsset{compat=newest} % Allows to place the legend below plot
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{statistics}
+
+% #################### Function definition for box plots read table ##################\
+\makeatletter
+\pgfplotsset{
+	boxplot prepared from table/.code={
+		\def\tikz@plot@handler{\pgfplotsplothandlerboxplotprepared}%
+		\pgfplotsset{
+			/pgfplots/boxplot prepared from table/.cd,
+			#1,
+		}
+	},
+	/pgfplots/boxplot prepared from table/.cd,
+	table/.code={\pgfplotstablecopy{#1}\to\boxplot@datatable},
+	row/.initial=0,
+	make style readable from table/.style={
+		#1/.code={
+			\pgfplotstablegetelem{\pgfkeysvalueof{/pgfplots/boxplot prepared from table/row}}{##1}\of\boxplot@datatable
+			\pgfplotsset{boxplot/#1/.expand once={\pgfplotsretval}}
+		}
+	},
+	make style readable from table=lower whisker,
+	make style readable from table=upper whisker,
+	make style readable from table=lower quartile,
+	make style readable from table=upper quartile,
+	make style readable from table=median,
+	make style readable from table=average,
+	make style readable from table=lower notch,
+	make style readable from table=upper notch
+}
+\makeatother
+\begin{document}
+
+\section{23 3 Mumford1 SA Mutations AMALGAM 20210815 221210}
+Removed 0 and 7
+
+% ######################## UTRP SA Mutation operators applied ######################## 
+\begin{figure} 
+\centering 
+\tikzsetnextfilename{UTRP_DBMOSA_BP_mutation_funcs_Counts_normal_phd} 
+\begin{tikzpicture} 
+\begin{axis}[ 
+title={Mutation operators applied}, 
+boxplot/draw direction=y, 
+xtick={1,2,3,4,5,6,7}, 
+xticklabels={0,1,2,3,4,5,6}, 
+x tick label style={rotate=0, align=center}, 
+xlabel={Mutation operators applied}, 
+%y tick label style={/pgf/number format/.cd,fixed,precision=3, zerofill}, 
+scaled y ticks={base 10:2},
+ylabel={HV obtained [\%]}, 
+] 
+
+% ############## Mutations_Counts_normal=1 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.63549, 
+upper whisker=0.7293, 
+lower quartile=0.66286, 
+upper quartile=0.71573, 
+median=0.68873, 
+average=0.68719}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(1,0.74405)}; 
+
+% ############## Mutations_Counts_normal=2 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.65668, 
+upper whisker=0.71695, 
+lower quartile=0.6811, 
+upper quartile=0.70174, 
+median=0.69016, 
+average=0.6887}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(2,0.72208)}; 
+
+% ############## Mutations_Counts_normal=3 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.45566, 
+upper whisker=0.62843, 
+lower quartile=0.53028, 
+upper quartile=0.59295, 
+median=0.58131, 
+average=0.56124}, 
+color = blue, solid, area legend] 
+coordinates {
+(3,0.36192)}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(3,0.71298)}; 
+
+% ############## Mutations_Counts_normal=4 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.68866, 
+upper whisker=0.73995, 
+lower quartile=0.70876, 
+upper quartile=0.71597, 
+median=0.7108, 
+average=0.71258}, 
+color = blue, solid, area legend] 
+coordinates {
+(4,0.488)
+(4,0.62112)}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(4,0.74583)}; 
+
+% ############## Mutations_Counts_normal=5 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.64038, 
+upper whisker=0.74705, 
+lower quartile=0.67004, 
+upper quartile=0.73087, 
+median=0.72026, 
+average=0.7046}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(5,0.75287)}; 
+
+% ############## Mutations_Counts_normal=6 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.65648, 
+upper whisker=0.73141, 
+lower quartile=0.70299, 
+upper quartile=0.71905, 
+median=0.7118, 
+average=0.70564}, 
+color = blue, solid, area legend] 
+coordinates {
+(6,0.62527)}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(6,0.75395)}; 
+
+% ############## Mutations_Counts_normal=8 ################## 
+\addplot[boxplot, mark=asterisk, 
+boxplot prepared={ 
+lower whisker=0.71329, 
+upper whisker=0.73034, 
+lower quartile=0.71544, 
+upper quartile=0.7269, 
+median=0.72309, 
+average=0.72196}, 
+color = blue, solid, area legend] 
+coordinates {
+(7,0.75812)
+(7,0.6121)}; 
+\addplot[only marks,mark=*,color = blue]coordinates{(7,0.76051)}; 
+
+\end{axis}
+\end{tikzpicture}
+\end{figure} 
+\begin{table}
+\centering
+\caption{Legend for the boxplot.}
+\begin{tabular}{ll}
+\toprule
+ Index &                                               Name \\
+\midrule
+     0 &               [MSC\_add\_terminal, MSC\_del\_terminal] \\
+     1 &                        [Add\_vertex, Delete\_vertex] \\
+     2 &       [Trim\_one\_terminal\_cb, Grow\_one\_terminal\_cb] \\
+     3 &       [Insert\_inside\_vertex, Delete\_inside\_vertex] \\
+     4 & [Add\_vertex, Delete\_vertex, Insert\_inside\_verte... \\
+     5 &        [Add\_vertex, Delete\_vertex, Intertwine\_two] \\
+     6 & [Add\_vertex, Delete\_vertex, Insert\_inside\_verte... \\
+     7 & [MSC\_add\_terminal, MSC\_del\_terminal, Insert\_ins... \\
+     8 & [Add\_vertex, Delete\_vertex, Insert\_inside\_verte... \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

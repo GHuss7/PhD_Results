@@ -1,0 +1,158 @@
+\documentclass[crop=false]{standalone}
+%\documentclass{standalone}
+\usepackage{tikz} % To generate the plot from csv
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage[section]{placeins} % getting figures below sections
+\usepackage{blindtext}
+\usepackage{siunitx}
+\usepgfplotslibrary{units} % Allows to enter the units nicely
+\usetikzlibrary{external} %https://tex.stackexchange.com/questions/1460/script-to-automate-externalizing-tikz-graphics
+\tikzexternalize[prefix=savedfigures/]
+
+\pgfplotsset{compat=newest} % Allows to place the legend below plot
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{statistics}
+
+% #################### Function definition for box plots read table ##################\
+\makeatletter
+\pgfplotsset{
+	boxplot prepared from table/.code={
+		\def\tikz@plot@handler{\pgfplotsplothandlerboxplotprepared}%
+		\pgfplotsset{
+			/pgfplots/boxplot prepared from table/.cd,
+			#1,
+		}
+	},
+	/pgfplots/boxplot prepared from table/.cd,
+	table/.code={\pgfplotstablecopy{#1}\to\boxplot@datatable},
+	row/.initial=0,
+	make style readable from table/.style={
+		#1/.code={
+			\pgfplotstablegetelem{\pgfkeysvalueof{/pgfplots/boxplot prepared from table/row}}{##1}\of\boxplot@datatable
+			\pgfplotsset{boxplot/#1/.expand once={\pgfplotsretval}}
+		}
+	},
+	make style readable from table=lower whisker,
+	make style readable from table=upper whisker,
+	make style readable from table=lower quartile,
+	make style readable from table=upper quartile,
+	make style readable from table=median,
+	make style readable from table=average,
+	make style readable from table=lower notch,
+	make style readable from table=upper notch
+}
+\makeatother
+\begin{document}
+
+\section{9 3 Mumford1 GA Mut prob 20210724 001615}
+
+% ######################## UTRP GA Mutation probability ######################## 
+\begin{figure} 
+\centering 
+\tikzsetnextfilename{UTRP_NSGAII_BP_mutation_probability} 
+\begin{tikzpicture} 
+\begin{axis}[ 
+title={Mutation probability}, 
+boxplot/draw direction=y, 
+xtick={1,2,3,4,5}, 
+xticklabels={0.8,0.85,0.9,0.95,1.0}, 
+x tick label style={rotate=0, align=center}, 
+xlabel={Mutation probability}, 
+y tick label style={/pgf/number format/.cd,fixed,precision=3, zerofill}, 
+ylabel={HV obtained [\%]}, 
+] 
+
+% ############## Mut_prob=0.8 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.75366, 
+upper whisker=0.75939, 
+lower quartile=0.75471, 
+upper quartile=0.7566, 
+median=0.75591, 
+average=0.75583}, 
+color = blue, solid, area legend] 
+coordinates {
+(1,0.76005)}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(1,0.76277)}; 
+
+% ############## Mut_prob=0.85 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.75178, 
+upper whisker=0.7612, 
+lower quartile=0.75436, 
+upper quartile=0.7585, 
+median=0.75708, 
+average=0.75652}, 
+color = blue, solid, area legend] 
+coordinates {}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(2,0.76533)}; 
+
+% ############## Mut_prob=0.9 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.75159, 
+upper whisker=0.76165, 
+lower quartile=0.75488, 
+upper quartile=0.75774, 
+median=0.75764, 
+average=0.75666}, 
+color = blue, solid, area legend] 
+coordinates {
+(3,0.76541)}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(3,0.76811)}; 
+
+% ############## Mut_prob=0.95 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.75148, 
+upper whisker=0.76286, 
+lower quartile=0.75375, 
+upper quartile=0.75755, 
+median=0.75559, 
+average=0.75578}, 
+color = blue, solid, area legend] 
+coordinates {
+(4,0.76673)}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(4,0.76987)}; 
+
+% ############## Mut_prob=1.0 ################## 
+\addplot[boxplot, mark=*, 
+boxplot prepared={ 
+lower whisker=0.75369, 
+upper whisker=0.75834, 
+lower quartile=0.75562, 
+upper quartile=0.75731, 
+median=0.75643, 
+average=0.75634}, 
+color = blue, solid, area legend] 
+coordinates {
+(5,0.76584)
+(5,0.76453)}; 
+\addplot[only marks,mark=asterisk,color = blue]coordinates{(5,0.77094)}; 
+
+\end{axis}
+\end{tikzpicture}
+\end{figure} 
+\begin{table}
+\centering
+\caption{Legend for the boxplot.}
+\begin{tabular}{ll}
+\toprule
+ Index &  Name \\
+\midrule
+     0 &   200 \\
+     1 &   300 \\
+     2 &   400 \\
+     3 &   500 \\
+     4 &   600 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}
